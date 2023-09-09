@@ -9,7 +9,7 @@ from recipes_smelting import RECIPE_SMELTING
 from recipe_chemical import RECIPE_CHEMICAL
 from recipe_particle_collider import RECIPE_PARTICLE_COLLIDER
 from recipe_research import RECIPE_RESEARCH
-from content_generator.facility import (
+from facility import (
     Facility,
     FACILITIY_SMELTING,
     FACILITIY_ASSEMBLER,
@@ -81,7 +81,7 @@ def compute_facilities_per_array(
 def write_blueprint_section(
     j: Job,
     r: Recipe,
-    blueprint_base_path: str = "content/Standard Set/Blueprints",
+    blueprint_base_path: str = "content/Blueprints",
 ) -> str:
     blueprint_path: str = rf"{blueprint_base_path}/{j.recipe_group}/{r.recommended_standard_blueprint}.txt|{r.recommended_standard_blueprint}"
 
@@ -182,17 +182,17 @@ def main() -> None:
         Job(
             recipes=RECIPE_SMELTING,
             facilities=FACILITIY_SMELTING,
-            recipe_group="Smelting",
+            recipe_group="Smelting Facility",
         ),
         Job(
             recipes=RECIPE_REFINING,
             facilities=FACILITIY_REFINING,
-            recipe_group="Refining",
+            recipe_group="Refining Facility",
         ),
         Job(
             recipes=RECIPE_CHEMICAL,
             facilities=FACILITIY_CHEMICAL,
-            recipe_group="Chemical",
+            recipe_group="Chemical Facility",
         ),
         Job(
             recipes=RECIPE_PARTICLE_COLLIDER,
@@ -202,12 +202,15 @@ def main() -> None:
         Job(
             recipes=RECIPE_RESEARCH,
             facilities=FACILITIY_RESEARCH,
-            recipe_group="Research",
+            recipe_group="Research Facility",
         ),
     ]
 
     for j in jobs:
         for r in j.recipes:
+            if not path.exists("content"):
+                mkdir("content")
+
             if not path.exists(f"content/{j.recipe_group}"):
                 mkdir(f"content/{j.recipe_group}")
 
