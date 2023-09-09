@@ -83,7 +83,11 @@ def write_blueprint_section(
     r: Recipe,
     blueprint_base_path: str = "content/Blueprints",
 ) -> str:
-    blueprint_path: str = rf"{blueprint_base_path}/{j.recipe_group}/{r.recommended_standard_blueprint}.txt|{r.recommended_standard_blueprint}"
+    blueprint_name: str = (
+        rf"{j.recipe_group} {r.recommended_standard_blueprint}"
+    )
+
+    blueprint_path: str = rf"{blueprint_base_path}/{j.recipe_group}/{blueprint_name}.txt|{blueprint_name}"
 
     content: str = rf"""
 ## Blueprint
