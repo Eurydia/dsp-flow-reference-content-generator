@@ -1,8 +1,8 @@
+from os import mkdir, path
 from dataclasses import dataclass
 from math import floor
-from recipe import Recipe
-from os import mkdir, path
 
+from recipe import Recipe
 from recipe_assembler import RECIPE_ASSEMBLER
 from recipe_refining import RECIPE_REFINING
 from recipes_smelting import RECIPE_SMELTING
@@ -81,13 +81,14 @@ def compute_facilities_per_array(
 def write_blueprint_section(
     j: Job,
     r: Recipe,
-    blueprint_base_path: str = "content/Blueprints",
 ) -> str:
     blueprint_name: str = (
         rf"{j.recipe_group} {r.recommended_standard_blueprint}"
     )
 
-    blueprint_path: str = rf"{blueprint_base_path}/{j.recipe_group}/{blueprint_name}.txt|{blueprint_name}"
+    blueprint_path: str = (
+        rf"{blueprint_name}.txt|{blueprint_name}"
+    )
 
     content: str = rf"""
 ## Blueprint
@@ -122,9 +123,6 @@ def write_reference(
     content: str = f"""
 ### {f.name}
 
-The number of **{f.name}** required to satisfy different production targets (items per minute).
-
-The square brackets represents the greatest production capacity without going over.
 
 |Proliferation|360|720|1800|
 |-|-|-|-|"""
