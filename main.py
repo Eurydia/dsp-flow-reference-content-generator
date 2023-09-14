@@ -93,7 +93,7 @@ def write_blueprint_section(
 
 **Recommended standard blueprints**: [[{blueprint_path}]]
 
-**Item transportation table**
+**I/O table**
 
 | Conveyor Belt # | Direction | Item | Ratio |
 | - | - | - | - |"""
