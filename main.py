@@ -86,9 +86,7 @@ def write_blueprint_section(
         rf"{j.recipe_group} {r.recommended_standard_blueprint}"
     )
 
-    blueprint_path: str = (
-        rf"{blueprint_name}.txt|{blueprint_name}"
-    )
+    blueprint_path: str = rf"{blueprint_name}.txt"
 
     content: str = rf"""
 ## Blueprint
