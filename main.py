@@ -91,7 +91,7 @@ def write_blueprint_section(
     content: str = rf"""
 ## Blueprint
 
-**Recommended standard blueprints**: {blueprint_path}
+**Recommended configuration**: {blueprint_path}
 
 **I/O table**
 
@@ -224,6 +224,8 @@ def main() -> None:
                     write_blueprint_section(j, r),
                     file=file,
                 )
+
+                print(f"## Reference Tables", file=file)
 
                 for f in j.facilities:
                     print(
