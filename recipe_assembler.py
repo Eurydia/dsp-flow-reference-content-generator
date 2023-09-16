@@ -197,8 +197,11 @@ RECIPE_ASSEMBLER: list[Recipe] = [
         3,
         [
             (ItemEnum.ENERGETIC_GRAPHITE, 1, "1/1"),
-            (ItemEnum.ELECTROMAGNETIC_TURBINE, 2, "2/2"),
-            (ItemEnum.MAGNET, 3, "3/3"),
+            (ItemEnum.ELECTROMAGNETIC_TURBINE, 1, "1/2"),
+            (ItemEnum.ELECTROMAGNETIC_TURBINE, 1, "1/2"),
+            (ItemEnum.MAGNET, 1, "1/3"),
+            (ItemEnum.MAGNET, 1, "1/3"),
+            (ItemEnum.MAGNET, 1, "1/3"),
         ],
         [(ItemEnum.SUPER_MAGNETIC_RING, 1, "1/1")],
     ),
