@@ -86,16 +86,16 @@ def write_blueprint_section(
         rf"{j.recipe_group} {r.recommended_standard_blueprint}"
     )
 
-    blueprint_path: str = rf"{blueprint_name}.txt"
+    blueprint_path: str = rf"{blueprint_name}"
 
     content: str = rf"""
 ## Blueprint
 
-**Recommended standard blueprints**: [[{blueprint_path}]]
+**Recommended standard blueprints**: {blueprint_path}
 
 **I/O table**
 
-| Conveyor Belt # | Direction | Item | Ratio |
+| Channel # | Direction | Item | Ratio |
 | - | - | - | - |"""
 
     belt_counter: int = 1
