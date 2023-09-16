@@ -1,6 +1,6 @@
 from os import mkdir, path
 from dataclasses import dataclass
-from math import floor
+from math import floor, ceil
 
 from recipe import Recipe
 from recipe_assembler import RECIPE_ASSEMBLER
@@ -163,77 +163,103 @@ def write_reference(
 
 
 def main() -> None:
-    ps: list[Proliferator] = [
-        Proliferator("None", 1, 1),
-        Proliferator("Extra Products +12.5%", 1.125, 1),
-        Proliferator("Extra Products +20%", 1.2, 1),
-        Proliferator("Extra Products +25%", 1.25, 1),
-        Proliferator("Production Speedup +25%", 1, 1.25),
-        Proliferator("Production Speedup +50%", 1, 1.5),
-        Proliferator("Production Speedup +100%", 1, 2),
-    ]
+    # ps: list[Proliferator] = [
+    #     Proliferator("None", 1, 1),
+    #     Proliferator("Extra Products +12.5%", 1.125, 1),
+    #     Proliferator("Extra Products +20%", 1.2, 1),
+    #     Proliferator("Extra Products +25%", 1.25, 1),
+    #     Proliferator("Production Speedup +25%", 1, 1.25),
+    #     Proliferator("Production Speedup +50%", 1, 1.5),
+    #     Proliferator("Production Speedup +100%", 1, 2),
+    # ]
 
-    jobs: list[Job] = [
-        Job(
-            recipes=RECIPE_ASSEMBLER,
-            facilities=FACILITIY_ASSEMBLER,
-            recipe_group="Assembler",
-        ),
-        Job(
-            recipes=RECIPE_SMELTING,
-            facilities=FACILITIY_SMELTING,
-            recipe_group="Smelting Facility",
-        ),
-        Job(
-            recipes=RECIPE_REFINING,
-            facilities=FACILITIY_REFINING,
-            recipe_group="Refining Facility",
-        ),
-        Job(
-            recipes=RECIPE_CHEMICAL,
-            facilities=FACILITIY_CHEMICAL,
-            recipe_group="Chemical Facility",
-        ),
-        Job(
-            recipes=RECIPE_PARTICLE_COLLIDER,
-            facilities=FACILITIY_PARTICLE_COLLIDER,
-            recipe_group="Particle Collider",
-        ),
-        Job(
-            recipes=RECIPE_RESEARCH,
-            facilities=FACILITIY_RESEARCH,
-            recipe_group="Research Facility",
-        ),
-    ]
+    # jobs: list[Job] = [
+    #     Job(
+    #         recipes=RECIPE_ASSEMBLER,
+    #         facilities=FACILITIY_ASSEMBLER,
+    #         recipe_group="Assembler",
+    #     ),
+    #     Job(
+    #         recipes=RECIPE_SMELTING,
+    #         facilities=FACILITIY_SMELTING,
+    #         recipe_group="Smelting Facility",
+    #     ),
+    #     Job(
+    #         recipes=RECIPE_REFINING,
+    #         facilities=FACILITIY_REFINING,
+    #         recipe_group="Refining Facility",
+    #     ),
+    #     Job(
+    #         recipes=RECIPE_CHEMICAL,
+    #         facilities=FACILITIY_CHEMICAL,
+    #         recipe_group="Chemical Facility",
+    #     ),
+    #     Job(
+    #         recipes=RECIPE_PARTICLE_COLLIDER,
+    #         facilities=FACILITIY_PARTICLE_COLLIDER,
+    #         recipe_group="Particle Collider",
+    #     ),
+    #     Job(
+    #         recipes=RECIPE_RESEARCH,
+    #         facilities=FACILITIY_RESEARCH,
+    #         recipe_group="Research Facility",
+    #     ),
+    # ]
 
-    for j in jobs:
-        for r in j.recipes:
-            if not path.exists("content"):
-                mkdir("content")
+    # for j in jobs:
+    #     for r in j.recipes:
+    #         if not path.exists("content"):
+    #             mkdir("content")
 
-            if not path.exists(f"content/{j.recipe_group}"):
-                mkdir(f"content/{j.recipe_group}")
+    #         if not path.exists(f"content/{j.recipe_group}"):
+    #             mkdir(f"content/{j.recipe_group}")
 
-            with open(
-                f"content/{j.recipe_group}/{r.name}.md",
-                mode="w+",
-                encoding="utf-8",
-            ) as file:
-                print(f"# {r.name}", file=file)
-                print(
-                    write_blueprint_section(j, r),
-                    file=file,
-                )
+    #         with open(
+    #             f"content/{j.recipe_group}/{r.name}.md",
+    #             mode="w+",
+    #             encoding="utf-8",
+    #         ) as file:
+    #             print(f"# {r.name}", file=file)
+    #             print(
+    #                 write_blueprint_section(j, r),
+    #                 file=file,
+    #             )
 
-                print(f"## Reference Tables", file=file)
+    #             print(f"## Reference Tables", file=file)
 
-                for f in j.facilities:
+    #             for f in j.facilities:
+    #                 print(
+    #                     write_reference(
+    #                         r, f, ps, [360, 720, 1800]
+    #                     ),
+    #                     file=file,
+    #                 )
+    with open(
+        "content/Extraction.md", "w+", encoding="utf-8"
+    ) as file:
+        for bv in [360, 720, 1800]:
+            print(f"### {bv} items per minute\n", file=file)
+            print(
+                """| Vein Utilization Level | Number of Nodes Required |
+| ---------------------- | ------------------------ |""",
+                file=file,
+            )
+            vu = 0
+            # current_best = ceil(bv / (50 + (0.5 * vu)))
+
+            while True:
+                curr = ceil(bv / (50 + (0.5 * vu)))
+                prev = ceil(bv / (50 + (0.5 * (vu - 1))))
+
+                if curr < prev:
                     print(
-                        write_reference(
-                            r, f, ps, [360, 720, 1800]
-                        ),
+                        f"|{vu} | {ceil(bv / (50 + (0.5 * vu)))}|",
                         file=file,
                     )
+
+                vu += 1
+                if curr == 1:
+                    break
 
 
 if __name__ == "__main__":
